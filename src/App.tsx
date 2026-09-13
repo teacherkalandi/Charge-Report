@@ -54,6 +54,11 @@ export default function App() {
     authority: 'Superintendent of Post Offices, Dhenkanal Division, Dhenkanal',
     copyToDivision: 'Supdt. of Post offices, Dhenkanal Division, Dhenkanal.',
     copyToHeadOffice: 'The Postmaster, Dhenkanal HO.',
+    copyTo1: '',
+    copyTo2: '',
+    copyTo3: '',
+    copyTo4: '',
+    copyTo5: '',
     valCash: '',
     valStamp: '',
     valRevenue: '',
@@ -126,7 +131,7 @@ export default function App() {
     if (formData.reportType === 'handover') {
       htmlContent = `
         <div style="font-family: 'Times New Roman', Times, serif; font-size: 15px; line-height: 1.6; color: black;">
-          <h2 style="text-align: center; text-decoration: underline; font-size: 24px; margin-bottom: 25px;">Charge Report</h2>
+          <h2 style="text-align: center; font-weight: bold; font-size: 24px; letter-spacing: 1px; margin-bottom: 25px;">CHARGE REPORT</h2>
           
           <p style="text-align: justify; text-indent: 50px; margin-bottom: 35px;">
             Certified that the charge of the office of <b>${formData.office}</b> was made over by <b>${formData.relievedStaff}</b> to <b>${formData.relievingStaff}</b> on <b>${formData.transferDate}</b> <b>${formData.timeOfDay}</b> at <b>${formData.place}</b> in accordance with Memo no: <b>${formData.memoNo}</b> Dated at <b>${formData.memoPlace}</b> the <b>${formData.memoDate}</b> from <b>${formData.authority}</b>.
@@ -180,6 +185,54 @@ export default function App() {
               2. ${formData.copyToHeadOffice}<br>
               3. Office Copy<br>
               4. Official concerned.
+            </p>
+          </div>
+        </div>
+      `;
+    } else if (formData.reportType === 'common_handover') {
+      htmlContent = `
+        <div style="font-family: 'Times New Roman', Times, serif; font-size: 16px; line-height: 1.8; color: black;">
+          <h2 style="text-align: center; font-weight: bold; font-size: 24px; letter-spacing: 1px; margin-bottom: 30px;">CHARGE REPORT</h2>
+          
+          <p style="text-align: justify; text-indent: 50px; margin-bottom: 50px;">
+            Certified that the charge of the office of <b>${formData.office}</b> was made over by <b>${formData.relievedStaff}</b> to <b>${formData.relievingStaff}</b> on <b>${formData.transferDate}</b> <b>${formData.timeOfDay}</b> at <b>${formData.place}</b> in accordance with Memo no: <b>${formData.memoNo}</b> Dated at <b>${formData.memoPlace}</b> the <b>${formData.memoDate}</b> from <b>${formData.authority}</b>.
+          </p>
+
+          <table style="width: 100%; margin-bottom: 40px; font-weight: bold; border: none;">
+            <tr>
+              <td style="text-align: left; border: none;">Relieved Officer</td>
+              <td style="text-align: right; border: none;">Relieving Officer</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 40px;">
+            <div style="font-weight: bold;">Copy to:-</div>
+            <p style="margin-top: 5px; line-height: 1.6; margin-left: 0;">
+              ${[formData.copyTo1, formData.copyTo2, formData.copyTo3, formData.copyTo4, formData.copyTo5].filter(Boolean).map((text, i) => `${i + 1}. ${text}<br>`).join('')}
+            </p>
+          </div>
+        </div>
+      `;
+    } else if (formData.reportType === 'common_assumption') {
+      htmlContent = `
+        <div style="font-family: 'Times New Roman', Times, serif; font-size: 16px; line-height: 1.8; color: black;">
+          <h2 style="text-align: center; font-weight: bold; font-size: 24px; letter-spacing: 1px; margin-bottom: 30px;">CHARGE REPORT</h2>
+          
+          <p style="text-align: justify; text-indent: 50px; margin-bottom: 50px;">
+            Certified that the charge of the office of <b>${formData.office}</b> was <span>${formData.chargeAction}</span> by <b>${formData.staffName}</b> at <b>${formData.place}</b> on date <b>${formData.transferDate}</b> <span>${formData.timeOfDay}</span> in accordance with Memo no: <span>${formData.memoNo}</span> Dated at <span>${formData.memoPlace}</span> the <span>${formData.memoDate}</span> from <span>${formData.authority}</span>.
+          </p>
+
+          <table style="width: 100%; margin-bottom: 40px; font-weight: bold; border: none;">
+            <tr>
+              <td style="text-align: left; border: none;">Relieved Officer</td>
+              <td style="text-align: right; border: none;">Relieving Officer</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 40px;">
+            <div style="font-weight: bold;">Copy to:-</div>
+            <p style="margin-top: 5px; line-height: 1.6; margin-left: 0;">
+              ${[formData.copyTo1, formData.copyTo2, formData.copyTo3, formData.copyTo4, formData.copyTo5].filter(Boolean).map((text, i) => `${i + 1}. ${text}<br>`).join('')}
             </p>
           </div>
         </div>
@@ -281,12 +334,14 @@ export default function App() {
               >
                 <option value="handover">Hand Over Report (with Balances)</option>
                 <option value="assumption">Assumption/Relinquishment Report</option>
+                <option value="common_handover">Common Type: Hand Over</option>
+                <option value="common_assumption">Common Type: Assume/Relinquish</option>
               </select>
             </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {formData.reportType === 'assumption' && (
+            {['assumption', 'common_assumption'].includes(formData.reportType) && (
               <div className="flex flex-col space-y-1">
                 <label className="text-sm font-semibold text-gray-700">Charge Action:</label>
                 <select
@@ -313,7 +368,7 @@ export default function App() {
               />
             </div>
 
-            {formData.reportType === 'handover' ? (
+            {['handover', 'common_handover'].includes(formData.reportType) ? (
               <>
                 <div className="flex flex-col space-y-1">
                   <label className="text-sm font-semibold text-gray-700">Relieved Staff (Made over by):</label>
@@ -354,7 +409,7 @@ export default function App() {
 
             <div className="flex flex-col space-y-1">
               <label className="text-sm font-semibold text-gray-700">
-                {formData.reportType === 'handover' ? 'Date of Transfer:' : 'Date:'}
+                {['handover', 'common_handover'].includes(formData.reportType) ? 'Date of Transfer:' : 'Date:'}
               </label>
               <input
                 type="text"
@@ -435,30 +490,47 @@ export default function App() {
           </div>
 
           <h3 className="text-lg font-bold text-gray-800 mt-8 mb-4">Copy To section</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-semibold text-gray-700">1. Division Name:</label>
-              <input
-                type="text"
-                name="copyToDivision"
-                value={formData.copyToDivision}
-                onChange={handleChange}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                required
-              />
+          {['common_handover', 'common_assumption'].includes(formData.reportType) ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[1, 2, 3, 4, 5].map((num) => (
+                <div key={num} className="flex flex-col space-y-1">
+                  <label className="text-sm font-semibold text-gray-700">{num}. Copy To:</label>
+                  <input
+                    type="text"
+                    name={`copyTo${num}`}
+                    value={(formData as any)[`copyTo${num}`]}
+                    onChange={handleChange}
+                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
+              ))}
             </div>
-            <div className="flex flex-col space-y-1">
-              <label className="text-sm font-semibold text-gray-700">2. Head Office Name:</label>
-              <input
-                type="text"
-                name="copyToHeadOffice"
-                value={formData.copyToHeadOffice}
-                onChange={handleChange}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-                required
-              />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex flex-col space-y-1">
+                <label className="text-sm font-semibold text-gray-700">1. Division Name:</label>
+                <input
+                  type="text"
+                  name="copyToDivision"
+                  value={formData.copyToDivision}
+                  onChange={handleChange}
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                  required
+                />
+              </div>
+              <div className="flex flex-col space-y-1">
+                <label className="text-sm font-semibold text-gray-700">2. Head Office Name:</label>
+                <input
+                  type="text"
+                  name="copyToHeadOffice"
+                  value={formData.copyToHeadOffice}
+                  onChange={handleChange}
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                  required
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           {formData.reportType === 'handover' && (
             <>
@@ -577,8 +649,8 @@ export default function App() {
             >
             {formData.reportType === 'handover' ? (
               <>
-                <div className="text-center text-2xl font-bold underline mb-8">
-                  Charge Report
+                <div className="text-center text-2xl font-bold tracking-wide mb-8">
+                  CHARGE REPORT
                 </div>
                 
                 <div className="text-justify mb-10" style={{ textIndent: "50px" }}>
@@ -641,6 +713,54 @@ export default function App() {
                     <li>2. {formData.copyToHeadOffice}</li>
                     <li>3. Office Copy</li>
                     <li>4. Official concerned.</li>
+                  </ol>
+                </div>
+              </>
+            ) : formData.reportType === 'common_handover' ? (
+              <>
+                <div className="text-center text-2xl font-bold tracking-wide mb-8">
+                  CHARGE REPORT
+                </div>
+                
+                <div className="text-justify mb-10" style={{ textIndent: "50px" }}>
+                  Certified that the charge of the office of <b>{formData.office}</b> was made over by <b>{formData.relievedStaff}</b> to <b>{formData.relievingStaff}</b> on <b>{formData.transferDate}</b> <b>{formData.timeOfDay}</b> at <b>{formData.place}</b> in accordance with Memo no: <b>{formData.memoNo}</b> Dated at <b>{formData.memoPlace}</b> the <b>{formData.memoDate}</b> from <b>{formData.authority}</b>.
+                </div>
+
+                <div className="flex justify-between font-bold mb-10 px-4">
+                  <div>Relieved Officer</div>
+                  <div>Relieving Officer</div>
+                </div>
+
+                <div className="leading-relaxed mt-12">
+                  <div className="font-bold">Copy to:-</div>
+                  <ol className="list-none pl-0 mt-2 space-y-1">
+                    {[formData.copyTo1, formData.copyTo2, formData.copyTo3, formData.copyTo4, formData.copyTo5].filter(Boolean).map((text, i) => (
+                      <li key={i}>{i + 1}. {text}</li>
+                    ))}
+                  </ol>
+                </div>
+              </>
+            ) : formData.reportType === 'common_assumption' ? (
+              <>
+                <div className="text-center text-2xl font-bold tracking-wide mb-8">
+                  CHARGE REPORT
+                </div>
+                
+                <div className="text-justify mb-10" style={{ textIndent: "50px" }}>
+                  Certified that the charge of the office of <b>{formData.office}</b> was <span>{formData.chargeAction}</span> by <b>{formData.staffName}</b> at <b>{formData.place}</b> on date <b>{formData.transferDate}</b> <span>{formData.timeOfDay}</span> in accordance with Memo no: <span>{formData.memoNo}</span> Dated at <span>{formData.memoPlace}</span> the <span>{formData.memoDate}</span> from <span>{formData.authority}</span>.
+                </div>
+
+                <div className="flex justify-between font-bold mb-10 px-4">
+                  <div>Relieved Officer</div>
+                  <div>Relieving Officer</div>
+                </div>
+
+                <div className="leading-relaxed mt-12">
+                  <div className="font-bold">Copy to:-</div>
+                  <ol className="list-none pl-0 mt-2 space-y-1">
+                    {[formData.copyTo1, formData.copyTo2, formData.copyTo3, formData.copyTo4, formData.copyTo5].filter(Boolean).map((text, i) => (
+                      <li key={i}>{i + 1}. {text}</li>
+                    ))}
                   </ol>
                 </div>
               </>
