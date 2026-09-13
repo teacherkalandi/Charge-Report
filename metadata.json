@@ -1,0 +1,8 @@
+{
+  "name": "Charge Report Generator",
+  "description": "Generate and print India Post Charge Reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
