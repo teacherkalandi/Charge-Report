@@ -190,7 +190,7 @@ export default function App() {
         <div style="font-family: 'Times New Roman', Times, serif; font-size: 16px; line-height: 1.8; color: black;">
           <h2 style="text-align: center; font-weight: bold; font-size: 24px; letter-spacing: 1px; margin-bottom: 30px;">CHARGE REPORT</h2>
           
-          <p style="text-align: justify; margin-bottom: 50px;">
+          <p style="text-align: justify; text-indent: 50px; margin-bottom: 50px;">
             Certified that the charge of the office of <b>${formData.office}</b> was <span>${formData.chargeAction}</span> by <b>${formData.staffName}</b> at <b>${formData.place}</b> on date <b>${formData.transferDate}</b> <span>${formData.timeOfDay}</span> in accordance with Memo no: <span>${formData.memoNo}</span> Dated at <span>${formData.memoPlace}</span> the <span>${formData.memoDate}</span> from <span>${formData.authority}</span>.
           </p>
 
@@ -650,7 +650,7 @@ export default function App() {
                   CHARGE REPORT
                 </div>
                 
-                <div className="text-justify mb-14">
+                <div className="text-justify mb-14" style={{ textIndent: "50px" }}>
                   Certified that the charge of the office of <b>{formData.office}</b> was <span>{formData.chargeAction}</span> by <b>{formData.staffName}</b> at <b>{formData.place}</b> on date <b>{formData.transferDate}</b> <span>{formData.timeOfDay}</span> in accordance with Memo no: <span>{formData.memoNo}</span> Dated at <span>{formData.memoPlace}</span> the <span>{formData.memoDate}</span> from <span>{formData.authority}</span>.
                 </div>
 
